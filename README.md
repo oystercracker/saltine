@@ -14,30 +14,38 @@ All you have to do is set up a new assistant from a given request object.  It wi
 ```javascript
 const { Handler, Skill } = require('joint-venture');
 
+const facts = [
+  'A year on Mercury is just 88 days long.',
+  'Despite being farther from the Sun, Venus experiences higher temperatures than Mercury.',
+  'Venus rotates counter-clockwise, possibly because of a collision in the past with an asteroid.'
+];
+
 class DefaultHandler extends Handler {
   LaunchRequest() {
-    this.speak('Launch Request response from lambda');
     this.set('action', 'GetNewFactIntent');
   }
   GetNewFactIntent() {
-    this.speak('sample fact poo');
+    const factIndex  = Math.floor(Math.random() * factArr.length),
+          randomFact = facts[factIndex];
+    this.say(randomFact);
   }
   'AMAZON.HelpIntent'() {
-    this.ask('moo help message');
-    this.reprompt('moo reprompt');
+    this.say('Simply ask me a for a fact, and I will give you one.');
   }
   'AMAZON.StopIntent,AMAZON.CancelIntent'() {
-    this.speak('cancel moo');
+    // A handler function can match multiple actions.
+    this.say('So long.');
   }
   '?'(){
-    this.speak('I\'m not sure how to help you with that.');
+    // a catch-all action when nothing else matches
+    this.say('I\'m not sure how to help you with that.');
   }
 }
 
 Skill.create()
   .registerHandler(defaultHandler)
   .perform(requestBody)  // A request body object from Alexa, Google Assistant, or Cortana.
-  .then(console.log);
+  .then(response => console.log(response.output));
 ```
 
 ## Status
