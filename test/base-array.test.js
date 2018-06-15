@@ -19,10 +19,10 @@ describe('base-array', function(){
     });
   });
 
-  describe('dconcat()', function() {
+  describe('concatObject()', function() {
     it('pushes another array\'s elements', function(){
       let array = BaseArray.from(['a', 'b', 'c']);
-      array.dconcat(['d', 'e', 'f']);
+      array.concatObject(['d', 'e', 'f']);
       assert.equal(array.length, 6);
     });
   });
