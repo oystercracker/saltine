@@ -6,7 +6,7 @@ const assert             = require('chai').assert,
 describe('handler', function(){
 
   it('takes an state name', function(){
-    let handler = new Handler('a state');
+    const handler = new Handler('a state');
     assert.equal(handler.get('stateName'), 'a state');
   });
 
@@ -17,12 +17,12 @@ describe('handler', function(){
     });
 
     it('takes a state name', function(){
-      let handler = Handler.create('some state');
+      const handler = Handler.create('some state');
       assert.equal(handler.get('stateName'), 'some state');
     });
 
     it('accepts mixins', function(){
-      let mixin1 = {
+      const mixin1 = {
             hello(){}
           },
           mixin2 = {
@@ -34,7 +34,7 @@ describe('handler', function(){
     });
 
     it('accepts mixins with a state name', function(){
-      let mixin1 = {
+      const mixin1 = {
             hello(){}
           },
           mixin2 = {
@@ -54,7 +54,7 @@ describe('handler', function(){
       class SomeHandler extends Handler {
         LaunchRequest(){}
       }
-      let handler = new SomeHandler('some state');
+      const handler = new SomeHandler('some state');
       assert.exists(handler.getActionFunction('LaunchRequest'));
     });
 
@@ -62,7 +62,7 @@ describe('handler', function(){
       class SomeHandler extends Handler {
         'LaunchRequest,SomeIntentName'(){}
       }
-      let handler = new SomeHandler('some state')
+      const handler = new SomeHandler('some state')
       assert.exists(handler.getActionFunction('LaunchRequest'));
       assert.exists(handler.getActionFunction('SomeIntentName'));
       assert.notExists(handler.getActionFunction('NonExistentIntentName'));
@@ -73,7 +73,7 @@ describe('handler', function(){
         LaunchRequest(){}
         '?'(){}
       }
-      let handler = new SomeHandler();
+      const handler = new SomeHandler();
       assert.equal(handler.getActionFunction('NotARealIntent'), SomeHandler.prototype['?']);
     });
 

@@ -14,10 +14,34 @@
     "type": "IntentRequest",
     "requestId": "EdwRequestId.test",
     "locale": "en-US",
-    "timestamp": "2017-07-27T01:02:25Z",
+    "timestamp": "2018-06-25T01:02:25Z",
     "intent": {
       "name": "FoobarIntent",
-      "slots": {}
+      "slots": {
+        "TestSlot": {
+          "name": "testSlot",
+          "value": "testValue",
+          "confirmationStatus": "NONE",
+          "resolutions": {
+            "resolutionsPerAuthority": [
+              {
+                "authority": "testAuthority",
+                "status": {
+                  "code": "ER_SUCCESS_MATCH"
+                },
+                "values": [
+                  {
+                    "value": {
+                      "name": "testResolvedValue",
+                      "id": "12345"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }  
     }
   },
   "version": "1.0"

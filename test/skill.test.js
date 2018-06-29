@@ -9,24 +9,24 @@ describe('skill', function(){
 
   describe('registerHandler()', function(){
     it('registers a default handler', function(){
-      let skill = new Skill(AlexaMockRequest);
+      const skill = new Skill(AlexaMockRequest);
       skill.registerHandler(Handler);
-      let handlers = Object.values(skill.get('handlers'));
+      const handlers = Object.values(skill.get('handlers'));
       assert.isNotEmpty(handlers);
     });
     it('registers a handler for a state', function(){
-      let skill = new Skill(AlexaMockRequest);
+      const skill = new Skill(AlexaMockRequest);
       skill.registerHandler('some state', Handler);
-      let handler = Object.values(skill.get('handlers'))[0];
+      const handler = Object.values(skill.get('handlers'))[0];
       assert.equal(handler.get('stateName'), 'some state');
     });
   });
 
   describe('registerHandlers()', function(){
     it('populates handlers', function(){
-      let skill = new Skill(AlexaMockRequest);
+      const skill = new Skill(AlexaMockRequest);
       skill.registerHandlers(new Handler(), new Handler('some state'));
-      let handlers = Object.values(skill.get('handlers'));
+      const handlers = Object.values(skill.get('handlers'));
       assert.isNotEmpty(handlers);
     });
   });
@@ -46,13 +46,13 @@ describe('skill', function(){
           this.say('world.')
         }
       }
-      let skill          = new Skill(),
+      const skill        = new Skill(),
           defaultHandler = new SomeHandler(),
           stateHandler   = new AnotherHandler('some state');
       skill.registerHandlers(defaultHandler, stateHandler);
       skill.perform(AlexaMockRequest)
         .then(response => {
-          let json = JSON.stringify(response);
+          const json = JSON.stringify(response);
           assert.match(json, /hello/);
           assert.match(json, /world/);
           done();

@@ -1,7 +1,7 @@
-Joint Venture
+Saltine
 =============
 
-A minimal library for building responses to multiple voice-activated assitant platforms, including Alexa, Google Assistant, Cortana, etc.
+A minimal library that builds responses for multiple voice-activated assitant platforms, including Amazon Alexa, Google Assistant, and Microsoft Cortana.
 
 ## Usage
 
@@ -12,7 +12,7 @@ All this library does is build the JSON you would place in a voice activated res
 All you have to do is set up a new assistant from a given request object.  It will guess the platform from the request object and write a response for it.
 
 ```javascript
-const { Handler, Skill } = require('joint-venture');
+const { Handler, Skill } = require('saltine');
 
 const facts = [
   'A year on Mercury is just 88 days long.',

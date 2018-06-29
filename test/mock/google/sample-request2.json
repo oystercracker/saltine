@@ -1,0 +1,42 @@
+{
+  "user": {
+    "userId": "test.user.id",
+    "locale": "en-US",
+    "lastSeen": "2018-06-28T03:37:11Z"
+  },
+  "conversation": {
+    "conversationId": "test.conversation.id",
+    "type": "NEW"
+  },
+  "inputs": [
+    {
+      "intent": "actions.intent.MAIN",
+      "rawInputs": [
+        {
+          "inputType": "VOICE",
+          "query": "hello world"
+        }
+      ]
+    }
+  ],
+  "surface": {
+    "capabilities": [
+      {
+        "name": "actions.capability.MEDIA_RESPONSE_AUDIO"
+      },
+      {
+        "name": "actions.capability.AUDIO_OUTPUT"
+      }
+    ]
+  },
+  "isInSandbox": false,
+  "availableSurfaces": [
+    {
+      "capabilities": [
+        {
+          "name": "actions.capability.AUDIO_OUTPUT"
+        }
+      ]
+    }
+  ]
+}
