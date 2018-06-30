@@ -1,5 +1,5 @@
 {
-  "name": "joint-venture",
+  "name": "saltine",
   "version": "1.0.0",
   "description": "A minimal library for building responses to multiple voice-activated assitant platforms, including Alexa, Google Assistant, Cortana, etc.",
   "main": "index.js",
@@ -9,7 +9,9 @@
   "author": "Ten Bitcomb",
   "license": "MIT",
   "devDependencies": {
+    "ask-cli": "^1.4.0",
     "chai": "^4.1.2",
+    "eslint": "^5.0.1",
     "mocha": "^5.0.1",
     "nyc": "^11.4.1"
   },

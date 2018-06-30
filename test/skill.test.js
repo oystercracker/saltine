@@ -58,6 +58,51 @@ describe('skill', function(){
           done();
         });
     });
+
+    it('attaches the response object when an error occurs in the runloop', function(done){
+      class SomeHandler extends Handler {
+        LaunchRequest(){
+          throw Error('something wrong happened');
+        }
+      }
+      Skill.create()
+           .registerHandler(SomeHandler)
+           .perform(AlexaMockRequest)
+           .catch(err => err)
+           .then(err => {
+             assert.exists((err || {}).response);
+             done();
+           });
+    });
+
+    describe('express()', function(){
+      it('takes an Express request and writes to the given Express response', function(done){
+        class SomeHandler extends Handler {
+          LaunchRequest(){
+            this.say('hello world');
+          }
+        }
+
+        const skill    = Skill.create()
+                              .registerHandler(SomeHandler)
+                              .express(),
+              response = {
+                body: ''
+              };
+        
+        response.send = (text) => {
+          response.body = response.body + text;
+        };
+
+        skill({body: AlexaMockRequest}, response)
+          .then(resp => {
+            assert.match(response.body, /<speak>hello world<\/speak>/);
+            done();
+          });
+
+      });
+    });
+
   });
 
 });

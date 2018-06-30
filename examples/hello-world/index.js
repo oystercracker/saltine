@@ -11,14 +11,11 @@ class HelloHandler extends Handler {
   }
 }
 
+const skill = Skill.create().registerHandler(HelloHandler);
+
 app.use(bodyParser.json());
 
-app.post('/', (req, res) => {
-  Skill.create()
-    .registerHandler(HelloHandler)
-    .express(req)  
-    .then(response => res.send(response.json));
-});
+app.post('/', skill.express());
 
 app.listen(3000, () => console.log('Example skill listening on port 3000!')); // eslint-disable-line no-console
 

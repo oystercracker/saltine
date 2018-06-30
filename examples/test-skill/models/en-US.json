@@ -1,0 +1,54 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "test skill",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "TellMeSomething",
+                    "slots": [
+                        {
+                            "name": "thing",
+                            "type": "Thing"
+                        }
+                    ],
+                    "samples": [
+                        "tell me a {thing}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "Thing",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "fact"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "joke"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

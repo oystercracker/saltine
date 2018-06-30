@@ -1,18 +1,21 @@
 Saltine
 =============
 
-A minimal library that builds responses for multiple voice-activated assitant platforms, including Amazon Alexa, Google Assistant, and Microsoft Cortana.
+A small, nimble library that builds responses for multiple voice-activated assitant platforms, including Amazon Alexa, Google Assistant, and Microsoft Cortana.
 
 ## Usage
 
-All this library does is build the JSON you would place in a voice activated response.  It does not serve HTTP.  You will have to do that yourself with either something like [Express](https://expressjs.com/) or an [AWS Lambda](https://aws.amazon.com/lambda/) function.
+Saltine simply builds the JSON you would place in a voice activated response.  You will have to do that yourself with either something like [Express](https://expressjs.com/) or an [AWS Lambda](https://aws.amazon.com/lambda/) function.
 
 ### Example
 
-All you have to do is set up a new assistant from a given request object.  It will guess the platform from the request object and write a response for it.
+This is a simple skill, using Express.js, that utilizes the basic Alexa intents.
 
 ```javascript
-const { Handler, Skill } = require('saltine');
+const { Handler, Skill } = require('saltine'),
+        express          = require('express'),
+        bodyParser       = require('body-parser'),
+        app              = express();
 
 const facts = [
   'A year on Mercury is just 88 days long.',
@@ -25,9 +28,9 @@ class DefaultHandler extends Handler {
     this.set('action', 'GetNewFactIntent');
   }
   GetNewFactIntent() {
-    const factIndex  = Math.floor(Math.random() * factArr.length),
-          randomFact = facts[factIndex];
-    this.say(randomFact);
+    this.say({
+      random: facts
+    });
   }
   'AMAZON.HelpIntent'() {
     this.say('Simply ask me a for a fact, and I will give you one.');
@@ -42,10 +45,11 @@ class DefaultHandler extends Handler {
   }
 }
 
-Skill.create()
-  .registerHandler(defaultHandler)
-  .perform(requestBody)  // A request body object from Alexa, Google Assistant, or Cortana.
-  .then(response => console.log(response.output));
+app.use(bodyParser.json());
+
+app.post('/', skill.express());
+
+app.listen(3000, () => console.log('Example skill listening on port 3000!')); // eslint-disable-line no-console
 ```
 
 ## Status
