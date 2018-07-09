@@ -1,7 +1,7 @@
 {
   "name": "saltine",
   "version": "1.0.0",
-  "description": "A minimal library for building responses to multiple voice-activated assitant platforms, including Alexa, Google Assistant, Cortana, etc.",
+  "description": "A small, nimble library for building smart-speaker applications.",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/nyc/bin/nyc.js node_modules/mocha/bin/mocha --recursive"
