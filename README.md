@@ -1,7 +1,7 @@
 Saltine
 =============
 
-A small, nimble library that builds responses for multiple voice-activated assitant platforms, including Amazon Alexa, Google Assistant, and Microsoft Cortana.
+A small, nimble library for building smart-speaker applications.
 
 ## Usage
 
