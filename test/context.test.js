@@ -134,7 +134,6 @@ describe('context', function(){
         state:  'foo',
         action: 'bar'
       });
-      debugger
       assert.deepEqual(context.get('waypoints').pop(), ['foo', 'bar']);
     });
 
