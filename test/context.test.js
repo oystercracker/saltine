@@ -126,5 +126,40 @@ describe('context', function(){
 
   });
 
+  describe('addWaypoint()', function(){
+
+    it('adds a waypoint with both a state and an action', function(){
+      const context = new Context(AlexaMockRequest);
+      context.addWaypoint({
+        state:  'foo',
+        action: 'bar'
+      });
+      debugger
+      assert.deepEqual(context.get('waypoints').pop(), ['foo', 'bar']);
+    });
+
+  });
+
+  describe('yield()', function(){
+
+    it('transitions to a waypoint', function(){
+      const context = new Context(AlexaMockRequest);
+      context.get('waypoints').push(['foo', 'bar']);
+      context.yield();
+      assert.isTrue(context.get('willTransition'))
+      assert.equal(context.get('state'),  'foo');
+      assert.equal(context.get('action'), 'bar');
+    });
+
+    it('does nothing when no waypoint', function(){
+      const context = new Context(AlexaMockRequest);
+      context.yield();
+      assert.isFalse(context.get('willTransition'))
+      assert.notEqual(context.get('state'),  'foo');
+      assert.notEqual(context.get('action'), 'bar');
+    });
+
+  });
+
 });
 

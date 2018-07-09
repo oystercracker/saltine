@@ -11,7 +11,8 @@ class HelloHandler extends Handler {
   }
 }
 
-const skill = Skill.create().registerHandler(HelloHandler);
+const skill = Skill.create()
+                   .registerHandler(HelloHandler);
 
 app.use(bodyParser.json());
 

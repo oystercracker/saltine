@@ -75,6 +75,31 @@ describe('skill', function(){
            });
     });
 
+
+    it('executes middleware', function(done){
+      class SomeHandler extends Handler {
+        LaunchRequest(){
+          this.say('bar');
+        }
+      }
+      class SomeMiddleware {
+        before(context){
+          context.say('foo');
+        }
+        after(context){
+          context.say('baz');
+        }
+      }
+      Skill.create()
+           .use(SomeMiddleware)
+           .registerHandler(SomeHandler)
+           .perform(AlexaMockRequest)
+           .then(resp => {
+             assert.deepEqual(resp.speech, [ 'foo', 'bar', 'baz' ]);
+             done();
+           });
+    });
+
     describe('express()', function(){
       it('takes an Express request and writes to the given Express response', function(done){
         class SomeHandler extends Handler {
