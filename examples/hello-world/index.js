@@ -1,9 +1,6 @@
 'use strict';
 
-const { Handler, Skill } = require('saltine'),
-        express          = require('express'),
-        bodyParser       = require('body-parser'),
-        app              = express();
+const { Handler, Skill } = require('saltine');
 
 class HelloHandler extends Handler {
   '?'(){
@@ -11,12 +8,6 @@ class HelloHandler extends Handler {
   }
 }
 
-const skill = Skill.create()
-                   .registerHandler(HelloHandler);
-
-app.use(bodyParser.json());
-
-app.post('/', skill.express());
-
-app.listen(3000, () => console.log('Example skill listening on port 3000!')); // eslint-disable-line no-console
+module.exports = Skill.create()
+                      .registerHandler(HelloHandler);
 

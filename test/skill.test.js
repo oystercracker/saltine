@@ -59,22 +59,54 @@ describe('skill', function(){
         });
     });
 
-    it('attaches the response object when an error occurs in the runloop', function(done){
+    it('calls onError event action function if error is thrown in handler', function(done){
       class SomeHandler extends Handler {
         LaunchRequest(){
           throw Error('something wrong happened');
+        }
+        onError(){
+          assert.exists(this.get('error'));
         }
       }
       Skill.create()
            .registerHandler(SomeHandler)
            .perform(AlexaMockRequest)
-           .catch(err => err)
-           .then(err => {
-             assert.exists((err || {}).response);
-             done();
+           .then(() => done());
+    });
+
+    it('calls onError function if error happens in middleware before() method and halts further execution', function(done){
+      class SomeMiddleware {
+        before(){
+          throw Error('something wrong happened');
+        }
+        after(context){
+          context.say('nothing wrong happened');
+        }
+      }
+      class SomeHandler extends Handler {
+        LaunchRequest(){
+          this.say('nothing wrong happened');
+        }
+        onError(){
+          assert.exists(this.get('error'));
+        }
+      }
+      Skill.create()
+           .use(SomeMiddleware)
+           .registerHandler(SomeHandler)
+           .perform(AlexaMockRequest)
+           .then(resp => {
+             assert.isEmpty(resp.speech); done();
            });
     });
 
+    it('does not complain if the handler does not have a corresponding action function', function(done){
+      class SomeHandler extends Handler {}
+      Skill.create()
+           .registerHandler(SomeHandler)
+           .perform(AlexaMockRequest)
+           .then(() => done());
+    });
 
     it('executes middleware', function(done){
       class SomeHandler extends Handler {
@@ -100,34 +132,34 @@ describe('skill', function(){
            });
     });
 
-    describe('express()', function(){
-      it('takes an Express request and writes to the given Express response', function(done){
-        class SomeHandler extends Handler {
-          LaunchRequest(){
-            this.say('hello world');
-          }
+  });
+
+  describe('express()', function(){
+    it('takes an Express request and writes to the given Express response', function(done){
+      class SomeHandler extends Handler {
+        LaunchRequest(){
+          this.say('hello world');
         }
+      }
 
-        const skill    = Skill.create()
-                              .registerHandler(SomeHandler)
-                              .express(),
-              response = {
-                body: ''
-              };
-        
-        response.send = (text) => {
-          response.body = response.body + text;
-        };
+      const skill    = Skill.create()
+                            .registerHandler(SomeHandler)
+                            .express(),
+            response = {
+              body: ''
+            };
+      
+      response.send = (text) => {
+        response.body = response.body + text;
+      };
 
-        skill({body: AlexaMockRequest}, response)
-          .then(resp => {
-            assert.match(response.body, /<speak>hello world<\/speak>/);
-            done();
-          });
+      skill({body: AlexaMockRequest}, response)
+        .then(resp => {
+          assert.match(response.body, /<speak>hello world<\/speak>/);
+          done();
+        });
 
-      });
     });
-
   });
 
 });

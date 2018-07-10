@@ -96,8 +96,27 @@ describe('middleware', function(){
                .then(() => skill.perform(AlexaLaunchRequest))
                .then(() => done());
         });
+
+        it('does not persist storage if error', function(done){
+          class TestHandler extends Handler {
+            FoobarIntent(){
+              this.set('storage.foo', 'bar');
+              throw new Error('something wrong happened');
+            }
+            '?'(){
+              assert.notExists(this.get('storage.foo'));
+            }
+            onError(){ }
+          }
+          const skill = Skill.create();
+          skill.use(middleware);
+          skill.registerHandler(TestHandler);
+          skill.perform(AlexaIntentRequest)
+               .then(() => skill.perform(AlexaLaunchRequest))
+               .then(() => done());
+        });
     
-        it('persists session request if error present in context', function(done){
+        it('persists session request if handled error occurs', function(done){
           class TestHandler extends Handler {
             FoobarIntent(){
               throw new Error('this is just a test');
@@ -105,12 +124,12 @@ describe('middleware', function(){
             '?'(){
               assert.exists(this.get('savedSessionData'));
             }
+            onError(){  }
           }
           const skill = Skill.create();
           skill.use(middleware);
           skill.registerHandler(TestHandler);
           skill.perform(AlexaIntentRequest)
-               .catch(() => { /* do nothing */ })
                .then(() => skill.perform(AlexaLaunchRequest))
                .then(() => done());
         });
