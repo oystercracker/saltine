@@ -2,6 +2,8 @@
 
 const { Handler, Skill } = require('saltine');
 
+const AlexaVerifier = require('../../lib/middleware/alexa-verifier');
+
 class HelloHandler extends Handler {
   '?'(){
     this.say('Hello world!');
@@ -9,5 +11,6 @@ class HelloHandler extends Handler {
 }
 
 module.exports = Skill.create()
+                      // .use(AlexaVerifier)
                       .registerHandler(HelloHandler);
 

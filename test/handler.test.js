@@ -77,6 +77,17 @@ describe('handler', function(){
       assert.equal(handler.getActionFunction('NotARealIntent'), SomeHandler.prototype['?']);
     });
 
+    it('takes multiple action names and picks the first match', function(){
+      class SomeHandler extends Handler {
+        FooIntent(){}
+        BarIntent(){}
+        BazIntent(){}
+      }
+      const handler = new SomeHandler(),
+            action  = handler.getActionFunction('BarIntent', 'FooIntent', 'BazIntent');
+      assert.equal(action, SomeHandler.prototype['BarIntent']);
+    });
+
   });
 
 });

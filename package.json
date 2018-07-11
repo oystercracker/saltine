@@ -21,6 +21,7 @@
     "pouchdb-erase": "^1.0.2"
   },
   "dependencies": {
+    "alexa-verifier": "^2.0.1",
     "keypather": "^3.0.0",
     "ssml-validator": "^0.1.0"
   }

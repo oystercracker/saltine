@@ -18,10 +18,10 @@ describe('context', function(){
     assert.equal(context.get('response.constructor'), AlexaResponse);
   });
 
-  it('generates a Google response from an Google request', function(){
-    let context = new Context(GoogleMockRequest);
-    assert.equal(context.get('response.constructor'), GoogleResponse);
-  });
+  // it('generates a Google response from an Google request', function(){
+  //   let context = new Context(GoogleMockRequest);
+  //   assert.equal(context.get('response.constructor'), GoogleResponse);
+  // });
 
   it('generates a Cortana response from an Cortana request', function(){
     let context = new Context(CortanaMockRequest);

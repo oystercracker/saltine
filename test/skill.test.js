@@ -52,9 +52,8 @@ describe('skill', function(){
       skill.registerHandlers(defaultHandler, stateHandler);
       skill.perform(AlexaMockRequest)
         .then(response => {
-          const json = JSON.stringify(response);
-          assert.match(json, /hello/);
-          assert.match(json, /world/);
+          assert.match(response.json, /hello/);
+          assert.match(response.json, /world/);
           done();
         });
     });
@@ -132,6 +131,25 @@ describe('skill', function(){
            });
     });
 
+
+    it('prevents execution when shouldAbort is true on the context', function(done){
+      class SomeHandler extends Handler {
+        '?'(){
+          this.say('foo');
+        }
+      }
+      class SomeMiddleware {
+        before(context){
+          context.abort();
+        }
+      }
+      Skill.create()
+           .use(SomeMiddleware)
+           .registerHandler(SomeHandler)
+           .perform(AlexaMockRequest)
+           .then(resp => { assert.isEmpty(resp.get('speech')), done(); })
+    });
+
   });
 
   describe('express()', function(){
@@ -149,6 +167,10 @@ describe('skill', function(){
               body: ''
             };
       
+      response.status = (code) => {
+        response.statusCode = code;
+      }
+
       response.send = (text) => {
         response.body = response.body + text;
       };
@@ -156,6 +178,7 @@ describe('skill', function(){
       skill({body: AlexaMockRequest}, response)
         .then(resp => {
           assert.match(response.body, /<speak>hello world<\/speak>/);
+          assert.equal(response.statusCode, 200);
           done();
         });
 
